@@ -40,7 +40,6 @@ const OrderPage = () => {
 
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const statusOptions = ["pending", "shipped", "delivered", "cancelled"];
 
   const statusClasses: Record<string, string> = {
@@ -65,7 +64,8 @@ const OrderPage = () => {
       if (resp.success) {
         setOrder(resp.data);
       } else {
-        setError(resp.message);
+        navigate("/orders", { replace: true });
+        openErrorSnackbar(resp.message);
       }
     };
     fetchOrder();
@@ -92,10 +92,10 @@ const OrderPage = () => {
     );
   }
 
-  if (error || !order) {
+  if (!order) {
     return (
       <div className="max-w-4xl mx-auto p-4 text-center text-red-500">
-        {error || "Order not found"}
+        Order not found
       </div>
     );
   }

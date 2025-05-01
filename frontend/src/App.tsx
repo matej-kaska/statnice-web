@@ -60,7 +60,7 @@ const App = () => {
 								<Route
 									path="/products"
 									element={
-										<ProtectedRoute>
+										<ProtectedRoute userIsNeeded>
 											<ProductsPage />
 										</ProtectedRoute>
 									}
@@ -68,7 +68,7 @@ const App = () => {
 								<Route
 									path="/product/:id"
 									element={
-										<ProtectedRoute>
+										<ProtectedRoute userIsNeeded>
 											<ProductPage />
 										</ProtectedRoute>
 									}
@@ -76,7 +76,7 @@ const App = () => {
 								<Route
 									path="/orders"
 									element={
-										<ProtectedRoute>
+										<ProtectedRoute userIsNeeded>
 											<OrdersPage />
 										</ProtectedRoute>
 									}
@@ -84,7 +84,7 @@ const App = () => {
 								<Route
 									path="/order/:id"
 									element={
-										<ProtectedRoute>
+										<ProtectedRoute userIsNeeded>
 											<OrderPage />
 										</ProtectedRoute>
 									}
@@ -92,7 +92,7 @@ const App = () => {
 								<Route
 									path="/cart"
 									element={
-										<ProtectedRoute>
+										<ProtectedRoute userIsNeeded>
 											<CartPage />
 										</ProtectedRoute>
 									}

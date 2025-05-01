@@ -1,6 +1,7 @@
 import Order, { type OrderType } from "@/components/Order";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import { useEffect, useState } from "react";
 
 type PaginatedResponse<T> = {
@@ -65,6 +66,12 @@ const OrdersPage = () => {
 
 	return (
 		<div className="max-w-[calc(100%-15rem)] p-4 w-full">
+			<title>BasicERP | Orders</title>
+			<meta
+				name="description"
+				content="Review all your BasicERP orders: track status, creation and update dates, and view order details."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/orders`} />
 			<div className="flex justify-end mb-4">
 				<select
 					value={order}

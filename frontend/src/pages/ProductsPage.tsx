@@ -2,6 +2,7 @@ import ModalProduct from "@/components/ModalProduct";
 import Product, { type ProductType } from "@/components/Product";
 import { useModal } from "@/contexts/ModalContext";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
 
@@ -52,6 +53,12 @@ const ProductsPage = () => {
 
 	return (
 		<div className="max-w-[calc(100%-15rem)] p-4 w-full">
+			<title>BasicERP | Products</title>
+			<meta
+				name="description"
+				content="Browse the full BasicERP product catalog: view names, descriptions, prices, quantities, and low-stock alerts."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/products`} />
 			<div className="flex justify-end mb-4 gap-4">
 				{userInfo.role === "admin" && (
 					<button className="inline-block bg-green-600 text-white px-3.5 pb-1.25 rounded text-2xl hover:brightness-95 cursor-pointer" type="button" onClick={() => showModal(<ModalProduct />)}>

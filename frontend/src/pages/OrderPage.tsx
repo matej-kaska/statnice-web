@@ -1,6 +1,7 @@
 import Loading from "@/components/Loading";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -83,8 +84,8 @@ const OrderPage = () => {
 
 	if (loading) {
 		return (
-			<div className="flex-1 flex items-center justify-center">
-				<Loading />
+			<div className="flex-1 flex items-center justify-center max-w-4xl mx-auto p-4 space-y-6 w-full h-full">
+				<Loading className="w-full h-full"/>
 			</div>
 		);
 	}
@@ -95,7 +96,13 @@ const OrderPage = () => {
 
 	return (
 		<div className="max-w-4xl mx-auto p-4 space-y-6 w-full">
-			<div className="flex flex-col md:flex-row md:justify-between md:items-center">
+			<title>{`BasicERP | Order #${order.id}`}</title>
+			<meta
+				name="description"
+				content={`Order #${order.id}: status, items, user details, and total price—view full order history.`}
+			/>
+			<link rel="canonical" href={`${websiteUrl}/orders/${order.id}`} />
+			<div className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
 				<h1 className="text-2xl font-semibold">Order #{order.id}</h1>
 				<div className="space-y-1 text-gray-600">
 					<p>
@@ -121,7 +128,7 @@ const OrderPage = () => {
 				</div>
 			</div>
 
-			<div className="flex justify-between items-center mb-4">
+			<div className="flex justify-between items-center mb-4 w-full">
 				<div className="flex gap-2">
 					<p className="text-gray-800 font-medium">
 						{order.user.first_name} {order.user.last_name}

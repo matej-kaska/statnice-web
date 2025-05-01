@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useUserInfoStore, { type UserInfo } from "@/zustand/userInfo";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -73,6 +74,12 @@ const RegisterPage = () => {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-second/10">
+			<title>BasicERP | Register</title>
+			<meta
+				name="description"
+				content="Create a new BasicERP account to start managing your product catalog, orders, and stock levels."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/register`} />
 			<form onSubmit={onSubmit} className="w-full max-w-md bg-white border-2 border-main rounded-2xl p-6 shadow-lg">
 				<h2 className="text-2xl font-semibold mb-6 text-main">Register</h2>
 				<div className="mb-1">

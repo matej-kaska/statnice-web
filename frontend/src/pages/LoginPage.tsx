@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useCartStore, { type CartItems } from "@/zustand/store";
 import useUserInfoStore, { type UserInfo } from "@/zustand/userInfo";
 import { useState } from "react";
@@ -62,6 +63,12 @@ const LoginPage = () => {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-second/10">
+			<title>BasicERP | Login</title>
+			<meta
+				name="description"
+				content="Securely log in to your BasicERP account to manage products, orders, and inventory."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/`} />
 			<form onSubmit={onSubmit} className="w-full max-w-md bg-white border-2 border-main rounded-2xl p-6 shadow-lg">
 				<h2 className="text-2xl font-semibold mb-6 text-main">Log In</h2>
 

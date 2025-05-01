@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import { websiteUrl } from "@/utils/consts";
 import { useState } from "react";
 import axiosRequest from "utils/axios";
 
@@ -30,9 +31,12 @@ const Testing = () => {
 
 	return (
 		<div className="flex items-center justify-center w-full">
-			<header>
-				<h1>Testing</h1>
-			</header>
+			<title>BasicERP | Testing</title>
+			<meta
+				name="description"
+				content="BasicERP testing environment: experiment with new features, integrations, and API endpoints."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/testing`} />
 			<div className="flex flex-col items-center justify-center gap-4">
 				<div className="flex flex-col items-center justify-center">
 					<h2>{connection}</h2>

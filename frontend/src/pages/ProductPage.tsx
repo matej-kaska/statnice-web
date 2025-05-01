@@ -6,6 +6,7 @@ import type { ProductType } from "@/components/Product";
 import { useModal } from "@/contexts/ModalContext";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useCartStore from "@/zustand/store";
 import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
@@ -87,6 +88,12 @@ const ProductPage = () => {
 
 	return (
 		<div className="w-full mx-auto p-4">
+			<title>{`BasicERP | ${product.name}`}</title>
+			<meta
+				name="description"
+				content={`View details for ${product.name} including description, price, available quantity, and stock status.`}
+			/>
+			<link rel="canonical" href={`${websiteUrl}/product/${product.id}`} />
 			<NavLink to={"/products"} className="text-main font-semibold hover:underline cursor-pointer">
 				← Back to Products
 			</NavLink>

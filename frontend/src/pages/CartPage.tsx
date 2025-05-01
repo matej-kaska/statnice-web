@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import CartItem, { type CartItemType } from "@/components/CartItem";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
+import { websiteUrl } from "@/utils/consts";
 import useCartStore from "@/zustand/store";
 import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
@@ -97,6 +98,12 @@ const CartPage = () => {
 
 	return (
 		<div className="max-w-[calc(100%-15rem)] w-full p-4 flex flex-col min-w-80">
+			<title>BasicERP | Cart</title>
+			<meta
+				name="description"
+				content="Your BasicERP shopping cart: review items, adjust quantities, and proceed to create an order."
+			/>
+			<link rel="canonical" href={`${websiteUrl}/cart`} />
 			<h1 className="text-2xl font-semibold mb-4 text-main">Your Cart</h1>
 
 			{error && <div className="text-red-500 text-center mb-4">{error}</div>}

@@ -1,4 +1,3 @@
-from gettext import translation
 from rest_framework import serializers
 from ..models import Product, Order, OrderItem, Cart, CartItem, User
 

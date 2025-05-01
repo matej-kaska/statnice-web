@@ -101,7 +101,7 @@ class OrderListView(APIView):
     return paginator.get_paginated_response(serializer.data)
 
 class OrderDetailView(APIView):
-  permission_classes = [IsUser | IsAnalytic | IsAdmin]  # TODO: Všechny perms + protectedRoute + test user/analytic
+  permission_classes = [IsUser | IsAnalytic | IsAdmin]
 
   def get(self, request, id):
     order = get_object_or_404(Order, pk=id)
@@ -121,20 +121,24 @@ class OrderDetailView(APIView):
   def patch(self, request, id):
     if not request.user.role == 'admin':
       return Response({"message": "You do not have permission to update this order."}, status=status.HTTP_403_FORBIDDEN)
-    newStatus = request.data.get('status')
-    if newStatus not in ['pending', 'shipped', 'delivered', 'cancelled']:
+    new_status = request.data.get('status')
+    if new_status not in ['pending', 'shipped', 'delivered', 'cancelled']:
       return Response({"message": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
 
     order = get_object_or_404(Order, pk=id)
     if order.user != request.user and not request.user.is_admin:
       return Response({"message": "You do not have permission to update this order."}, status=status.HTTP_403_FORBIDDEN)
     
-    order.status = newStatus
+    order.status = new_status
     order.save()
     
     return Response({"message": "Order updated"}, status=status.HTTP_200_OK)
   
   def delete(self, request, id):
+    """
+      Not implemented yet
+    """
+    return Response({"message": "Deleting orders is not allowed"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     order = get_object_or_404(Order, pk=id)
     if order.user != request.user and not request.user.is_admin:
       return Response({"message": "You do not have permission to delete this order."}, status=status.HTTP_403_FORBIDDEN)

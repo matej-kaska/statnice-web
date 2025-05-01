@@ -7,17 +7,17 @@ import SnackbarProvider from "./contexts/SnackbarProvider";
 import "./style.css";
 
 import Testing from "@/pages/Testing";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import ProductsPage from "./pages/ProductsPage";
-import OrdersPage from "./pages/OrdersPage";
-import ProductPage from "./pages/ProductPage";
+import { useEffect } from "react";
 import Bars from "./components/Bars";
 import CartPage from "./pages/CartPage";
-import { useEffect } from "react";
-import axiosRequest from "./utils/axios";
-import useCartStore, { CartItems } from "./zustand/store";
+import LoginPage from "./pages/LoginPage";
 import OrderPage from "./pages/OrderPage";
+import OrdersPage from "./pages/OrdersPage";
+import ProductPage from "./pages/ProductPage";
+import ProductsPage from "./pages/ProductsPage";
+import RegisterPage from "./pages/RegisterPage";
+import axiosRequest from "./utils/axios";
+import useCartStore, { type CartItems } from "./zustand/store";
 
 const App = () => {
 	const setCart = useCartStore((s) => s.setCart);
@@ -51,7 +51,7 @@ const App = () => {
 							<Route
 								path="/register"
 								element={
-									<ProtectedRoute >
+									<ProtectedRoute>
 										<RegisterPage />
 									</ProtectedRoute>
 								}

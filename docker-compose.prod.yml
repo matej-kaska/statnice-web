@@ -1,0 +1,75 @@
+services:
+  ## Postgres
+  postgresql:
+    container_name: statnice-postgresql-prod
+    image: 'bitnami/postgresql:latest'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres # TODO: CHANGE THIS ON PRODUCTION @{POSTGRES_PASSWORD}
+      - POSTGRES_DB=statnice 
+    volumes:
+      - postgresql_data:/bitnami/postgresql
+      - postgresql_pre_initdb:/docker-entrypoint-preinitdb.d
+      - postgresql_initdb:/docker-entrypoint-initdb.d
+    ports:
+      - '127.0.0.1:5432:5432'
+    restart: always
+
+  ## Backend
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile.prod
+    container_name: statnice-backend-prod
+    volumes:
+      - ./backend:/backend
+    environment:
+      - DJANGO_PRODUCTION=true
+      - DJANGO_BASE_URL=http://localhost:8080
+      - DJANGO_ALLOWED_HOSTS=localhost,webapp,10.0.0.16,backend
+      - DJANGO_DB_NAME=statnice
+      - DJANGO_DB_USER=postgres
+      - DJANGO_DB_PASSWORD=postgres # TODO: CHANGE THIS ON PRODUCTION @{POSTGRES_PASSWORD}
+      - DJANGO_DB_HOST=postgresql
+      - DJANGO_DB_PORT=5432
+      - DJANGO_SECRET=${DJANGO_SECRET}
+    restart: always
+
+  ## Frontend
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_WEBSITE_URL: http://localhost:8080
+    container_name: statnice-frontend-prod
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  ## NGINX
+  edge:
+    build:
+      context: edge
+      dockerfile: Dockerfile
+    container_name: statnice-edge-prod
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./edge/nginx.conf:/opt/bitnami/nginx/conf/server_blocks/nginx.conf:ro
+      - ./backend/media:/app/media
+      - ./backend/staticfiles:/app/static
+    depends_on:
+      - frontend
+      - backend
+    restart: always
+
+volumes:
+  postgresql_data:
+    driver: local
+  postgresql_initdb:
+    driver: local
+  postgresql_pre_initdb:
+    driver: local

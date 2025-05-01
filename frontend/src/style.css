@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+#root {
+  height: 100vh;
+}
+
+body {
+  min-height: 100vh;
+}
+
+@theme {
+  --color-main:   #3B82F6;
+  --color-second: #6B7280;
+  --color-accent: #F59E0B;
+}

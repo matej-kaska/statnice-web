@@ -1,8 +1,9 @@
 import Loading from "@/components/Loading";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
+import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 type ProductType = {
 	id: number;
@@ -37,6 +38,7 @@ const OrderPage = () => {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const { openErrorSnackbar } = useSnackbar();
+	const userInfo = useUserInfoStore((s) => s.userInfo);
 
 	const [order, setOrder] = useState<OrderDetail | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -126,21 +128,23 @@ const OrderPage = () => {
 					</p>
 					<p className="text-gray-600">{order.user.email}</p>
 				</div>
-				<select
-					value={order.status}
-					onChange={(e) => setStatus(e.target.value)}
-					className="
-            border border-gray-300 rounded
-            px-3 py-2
-            focus:outline-none focus:ring-2 focus:ring-main
-          "
-				>
-					{statusOptions.map((opt) => (
-						<option key={opt} value={opt}>
-							{opt}
-						</option>
-					))}
-				</select>
+				{userInfo.role === "admin" && (
+					<select
+						value={order.status}
+						onChange={(e) => setStatus(e.target.value)}
+						className="
+              border border-gray-300 rounded
+              px-3 py-2
+              focus:outline-none focus:ring-2 focus:ring-main
+            "
+					>
+						{statusOptions.map((opt) => (
+							<option key={opt} value={opt}>
+								{opt}
+							</option>
+						))}
+					</select>
+				)}
 			</div>
 
 			<div className="border border-gray-200 rounded-md overflow-hidden w-full">
@@ -148,7 +152,9 @@ const OrderPage = () => {
 				{order.items.map((item) => (
 					<div key={item.product.id} className="flex justify-between items-center px-4 py-3 border-t border-gray-200">
 						<div className="min-w-0">
-							<p className="font-medium text-gray-800 truncate">{item.product.name}</p>
+							<Link to={`/product/${item.product.id}`} className="font-medium text-gray-800 truncate hover:underline">
+								{item.product.name}
+							</Link>
 						</div>
 						<div className="flex items-baseline space-x-4 min-w-60 justify-end">
 							<span className="text-gray-800">

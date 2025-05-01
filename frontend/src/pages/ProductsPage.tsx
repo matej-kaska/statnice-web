@@ -2,6 +2,7 @@ import ModalProduct from "@/components/ModalProduct";
 import Product, { type ProductType } from "@/components/Product";
 import { useModal } from "@/contexts/ModalContext";
 import axiosRequest from "@/utils/axios";
+import useUserInfoStore from "@/zustand/userInfo";
 import { useEffect, useState } from "react";
 
 type PaginatedResponse<T> = {
@@ -21,12 +22,13 @@ const orderOptions = [
 ];
 
 const ProductsPage = () => {
+	const userInfo = useUserInfoStore((s) => s.userInfo);
 	const { showModal } = useModal();
 
 	const [order, setOrder] = useState<string>("name");
 	const [products, setProducts] = useState<ProductType[]>([]);
 	const [nextUrl, setNextUrl] = useState<string | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string>("");
 
 	useEffect(() => {
@@ -51,9 +53,11 @@ const ProductsPage = () => {
 	return (
 		<div className="max-w-[calc(100%-15rem)] p-4 w-full">
 			<div className="flex justify-end mb-4 gap-4">
-				<button className="inline-block bg-green-600 text-white px-3.5 pb-1.25 rounded text-2xl hover:brightness-95 cursor-pointer" type="button" onClick={() => showModal(<ModalProduct />)}>
-					+
-				</button>
+				{userInfo.role === "admin" && (
+					<button className="inline-block bg-green-600 text-white px-3.5 pb-1.25 rounded text-2xl hover:brightness-95 cursor-pointer" type="button" onClick={() => showModal(<ModalProduct />)}>
+						+
+					</button>
+				)}
 				<select
 					value={order}
 					onChange={(e) => setOrder(e.target.value)}
@@ -76,7 +80,7 @@ const ProductsPage = () => {
 			{products.map((p) => (
 				<Product key={p.id} {...p} />
 			))}
-			{products.length === 0 && <div className="text-center py-4 text-gray-500 w-full">No products found.</div>}
+			{!loading && products.length === 0 && <div className="text-center py-4 text-gray-500 w-full">No products found.</div>}
 
 			{nextUrl && (
 				<div className="text-center mt-4">

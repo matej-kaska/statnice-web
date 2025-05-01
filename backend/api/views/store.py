@@ -126,7 +126,7 @@ class OrderDetailView(APIView):
       return Response({"message": "Invalid status"}, status=status.HTTP_400_BAD_REQUEST)
 
     order = get_object_or_404(Order, pk=id)
-    if order.user != request.user and not request.user.is_admin:
+    if order.user != request.user and not request.user.role == 'admin':
       return Response({"message": "You do not have permission to update this order."}, status=status.HTTP_403_FORBIDDEN)
     
     order.status = new_status

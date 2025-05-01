@@ -1,3 +1,4 @@
+import useUserInfoStore from "@/zustand/userInfo";
 import { Link } from "react-router-dom";
 
 export type OrderType = {
@@ -12,6 +13,7 @@ export type OrderType = {
 const statusOptions = ["pending", "shipped", "delivered", "cancelled"];
 
 const Order = ({ id, user, items, full_price, status, setStatus }: OrderType) => {
+	const userInfo = useUserInfoStore((s) => s.userInfo);
 	const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
 	const statusClasses: Record<string, string> = {
@@ -31,7 +33,7 @@ const Order = ({ id, user, items, full_price, status, setStatus }: OrderType) =>
         cursor-pointer
       "
 		>
-			<Link to={`/order/${id}`} className="flex items-center gap-4 min-w-0">
+			<Link to={`/order/${id}`} className="flex items-center gap-4 w-full">
 				<span className="text-gray-500 min-w-6">{id}</span>
 				<div className="flex flex-col min-w-0">
 					<span className="font-medium text-gray-800 truncate">{user}</span>
@@ -41,21 +43,23 @@ const Order = ({ id, user, items, full_price, status, setStatus }: OrderType) =>
 				</div>
 			</Link>
 			<div className="flex gap-2 items-center">
-				<select
-					value={status}
-					onChange={(e) => setStatus(id, e.target.value)}
-					className="
-            border border-gray-300 rounded
-            px-3 py-2
-            focus:outline-none focus:ring-2 focus:ring-main
-          "
-				>
-					{statusOptions.map((opt) => (
-						<option key={opt} value={opt}>
-							{opt}
-						</option>
-					))}
-				</select>
+				{userInfo.role === "admin" && (
+					<select
+						value={status}
+						onChange={(e) => setStatus(id, e.target.value)}
+						className="
+              border border-gray-300 rounded
+              px-3 py-2
+              focus:outline-none focus:ring-2 focus:ring-main
+            "
+					>
+						{statusOptions.map((opt) => (
+							<option key={opt} value={opt}>
+								{opt}
+							</option>
+						))}
+					</select>
+				)}
 				<span
 					className={`
           px-3 pt-0.5 pb-1

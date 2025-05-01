@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthProvider";
 import { ModalProvider } from "./contexts/ModalContext";
@@ -18,12 +18,15 @@ import ProductsPage from "./pages/ProductsPage";
 import RegisterPage from "./pages/RegisterPage";
 import axiosRequest from "./utils/axios";
 import useCartStore, { type CartItems } from "./zustand/store";
+import useUserInfoStore from "./zustand/userInfo";
 
 const App = () => {
+	const token = useUserInfoStore((s) => s.userInfo.token);
 	const setCart = useCartStore((s) => s.setCart);
 
 	useEffect(() => {
 		const getCart = async () => {
+			if (!token) return;
 			const response = await axiosRequest<CartItems>("GET", "/api/cart/");
 			if (response.success) {
 				const cart = response.data;
@@ -97,7 +100,6 @@ const App = () => {
 										</ProtectedRoute>
 									}
 								/>
-								<Route index element={<Navigate to="/products" />} />
 							</Route>
 							<Route
 								path="/testing"

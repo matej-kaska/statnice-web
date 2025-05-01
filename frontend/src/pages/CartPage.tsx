@@ -1,6 +1,5 @@
 import Button from "@/components/Button";
 import CartItem, { type CartItemType } from "@/components/CartItem";
-import Loading from "@/components/Loading";
 import { useSnackbar } from "@/contexts/SnackbarProvider";
 import axiosRequest from "@/utils/axios";
 import useCartStore from "@/zustand/store";
@@ -32,12 +31,10 @@ const CartPage = () => {
 
 	const [items, setItems] = useState<CartFullItem[]>([]);
 	const [fullPrice, setFullPrice] = useState(0);
-	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 
 	const fetchCart = async () => {
 		const resp = await axiosRequest<CartFullResponse>("GET", "/api/cart/full/");
-		setLoading(false);
 
 		if (!resp.success) {
 			setError(resp.message);
@@ -97,10 +94,6 @@ const CartPage = () => {
 			openErrorSnackbar(resp.message);
 		}
 	};
-
-	if (loading) {
-		return <Loading className="w-full" />;
-	}
 
 	return (
 		<div className="max-w-[calc(100%-15rem)] w-full p-4 flex flex-col min-w-80">

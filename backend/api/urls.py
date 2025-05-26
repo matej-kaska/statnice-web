@@ -4,6 +4,7 @@ from django.urls import path
 from api.views.tests import SQLTestViewSet
 from api.views.users import ObtainAuthToken, RegisterView, UserViewSet
 from api.views.store import CartFullView, CartView, ProductListView, ProductDetailView, ProductCreateView, OrderListView, OrderCreateView, OrderDetailView
+from api.views.xml import XMLView
 
 urlpatterns = [
   path("test/connection", lambda _: JsonResponse({"message": "Backend is connected!"})),
@@ -23,4 +24,6 @@ urlpatterns = [
 
   path('cart/', CartView.as_view(), name='cart'),
   path('cart/full/', CartFullView.as_view(), name='cart-full'),
+
+  path('xml', XMLView.as_view(), name='xml-view'),
 ]
